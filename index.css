@@ -1,0 +1,275 @@
+/* Custom design system and animations for slingshot-tactician */
+
+.font-tech {
+  font-family: 'Orbitron', 'Rajdhani', monospace;
+}
+
+.font-title {
+  font-family: 'Rajdhani', "Microsoft YaHei", "PingFang SC", sans-serif;
+}
+
+.font-hud {
+  font-family: 'Chakra Petch', "Microsoft YaHei", "PingFang SC", sans-serif;
+}
+
+.font-mono-tech {
+  font-family: 'Share Tech Mono', 'Courier New', monospace;
+}
+
+.text-glow-purple {
+  text-shadow: 0 0 15px rgba(213, 0, 249, 0.5), 0 0 5px rgba(213, 0, 249, 0.25);
+}
+
+.text-glow-cyan {
+  text-shadow: 0 0 15px rgba(0, 210, 255, 0.5), 0 0 5px rgba(0, 210, 255, 0.25);
+}
+
+.text-glow-green {
+  text-shadow: 0 0 15px rgba(0, 230, 118, 0.5), 0 0 5px rgba(0, 230, 118, 0.25);
+}
+
+.text-gradient-gold {
+  background: linear-gradient(135deg, #FFE082 0%, #FFB300 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
+
+@keyframes rgb-flow {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.text-rgb-flow {
+  background: linear-gradient(
+    to right,
+    #ff3366, /* Pink */
+    #ff6633, /* Orange */
+    #ffcc33, /* Yellow */
+    #33cc66, /* Green */
+    #3399ff, /* Blue */
+    #9933ff, /* Purple */
+    #ff3366  /* Pink loop */
+  );
+  background-size: 300% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+  animation: rgb-flow 6s linear infinite;
+  text-shadow: 0 0 25px rgba(213, 0, 249, 0.2);
+}
+
+.badge-rgb-flow {
+  position: relative;
+  background: rgba(18, 19, 26, 0.85);
+  border: 1px solid transparent;
+  border-radius: 9999px;
+  background-clip: padding-box;
+}
+
+.badge-rgb-flow::before {
+  content: '';
+  position: absolute;
+  top: -1.5px; left: -1.5px; right: -1.5px; bottom: -1.5px;
+  z-index: -1;
+  border-radius: 9999px;
+  background: linear-gradient(
+    to right,
+    #ff3366,
+    #ffcc33,
+    #33cc66,
+    #3399ff,
+    #9933ff,
+    #ff3366
+  );
+  background-size: 300% auto;
+  animation: rgb-flow 6s linear infinite;
+}
+
+/* Floating background orbs */
+@keyframes float-orb-1 {
+  0% {
+    transform: translate(0px, 0px) scale(1);
+  }
+  33% {
+    transform: translate(40px, -60px) scale(1.15);
+  }
+  66% {
+    transform: translate(-30px, 30px) scale(0.9);
+  }
+  100% {
+    transform: translate(0px, 0px) scale(1);
+  }
+}
+
+@keyframes float-orb-2 {
+  0% {
+    transform: translate(0px, 0px) scale(1.1);
+  }
+  50% {
+    transform: translate(-50px, 50px) scale(0.85);
+  }
+  100% {
+    transform: translate(0px, 0px) scale(1.1);
+  }
+}
+
+.bg-orb-1 {
+  animation: float-orb-1 16s ease-in-out infinite;
+}
+
+.bg-orb-2 {
+  animation: float-orb-2 20s ease-in-out infinite;
+}
+
+/* Cyber grid background */
+.bg-cyber-grid {
+  background-size: 50px 50px;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+}
+
+.bg-radial-fade {
+  background: radial-gradient(circle at center, transparent 20%, #06070a 85%);
+}
+
+/* Button Shaining Sweep Effect */
+@keyframes sweep {
+  0% {
+    left: -120%;
+  }
+  30% {
+    left: 130%;
+  }
+  100% {
+    left: 130%;
+  }
+}
+
+.btn-shine {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-shine::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -120%;
+  width: 45%;
+  height: 100%;
+  background: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.4) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: skewX(-20deg);
+  animation: sweep 5s ease-in-out infinite;
+}
+
+/* Smooth card scale entry */
+@keyframes card-intro {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.animate-card-intro {
+  animation: card-intro 0.75s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+}
+
+/* Text glow titles */
+.title-glow {
+  text-shadow: 0 0 35px rgba(213, 0, 249, 0.25), 0 0 10px rgba(99, 102, 241, 0.2);
+}
+
+/* Cybernetic gaming button style */
+.cyber-btn {
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.95) 0%, rgba(139, 92, 246, 0.95) 50%, rgba(213, 0, 249, 0.95) 100%);
+  box-shadow: 
+    0 8px 30px rgba(99, 102, 241, 0.35),
+    inset 0 1px 2px rgba(255, 255, 255, 0.45),
+    inset 0 -3px 12px rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cyber-btn:hover {
+  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #d500f9 100%);
+  box-shadow: 
+    0 15px 45px rgba(213, 0, 249, 0.6),
+    0 0 15px rgba(255, 255, 255, 0.25),
+    inset 0 1px 3px rgba(255, 255, 255, 0.6);
+  transform: translateY(-2px) scale(1.03);
+}
+
+/* ==========================================
+   Obsidian Glassmorphism Custom Scrollbars
+   ========================================== */
+
+/* Webkit browser scrollbars (Chrome, Safari, Edge, Opera) */
+::-webkit-scrollbar {
+  width: 6px;           /* Clean thin vertical scrollbar */
+  height: 6px;          /* Clean thin horizontal scrollbar */
+}
+
+/* Scrollbar Track (the background path) */
+::-webkit-scrollbar-track {
+  background: rgba(12, 13, 18, 0.45);
+  border-radius: 99px;
+}
+
+/* Scrollbar Thumb (the draggable pill) */
+::-webkit-scrollbar-thumb {
+  background: rgba(99, 102, 241, 0.25); /* Glowing indigo semi-transparent */
+  border-radius: 99px;
+  border: 1px solid rgba(255, 255, 255, 0.04); /* Futuristic outline */
+  box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Hover state for Scrollbar Thumb */
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(139, 92, 246, 0.55); /* Purple neon hover state */
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 0 8px rgba(139, 92, 246, 0.6);
+}
+
+/* Active clicked state for Scrollbar Thumb */
+::-webkit-scrollbar-thumb:active {
+  background: rgba(213, 0, 249, 0.8); /* Magenta neon active pulse */
+  box-shadow: 0 0 12px rgba(213, 0, 249, 0.85);
+}
+
+/* Hide scrollbar buttons (arrows) for a clean modern HUD look */
+::-webkit-scrollbar-button {
+  display: none;
+}
+
+/* Scrollbar corner where vertical and horizontal meet */
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* Firefox scrollbar support */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(99, 102, 241, 0.3) rgba(12, 13, 18, 0.45);
+}
+
