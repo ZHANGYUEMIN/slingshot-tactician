@@ -5,6 +5,8 @@
 [![Vite](https://img.shields.io/badge/Bundler-Vite%206-purple.svg)](https://vite.dev/)
 [![Gemini](https://img.shields.io/badge/AI_Model-Gemini%202.5%20Flash-orange.svg)](https://ai.google.dev/)
 
+![slingshot-tactician Welcome Screen](docs/welcome.png)
+
 slingshot-tactician 是一款基于网页摄像头手势追踪（MediaPipe）与 Google Gemini 2.5 Flash 视觉模型实时智能战术驱动的极客风泡泡龙射击游戏。
 
 项目由 HAPPY Games (happy_games@vip.qq.com) 倾情呈现，专为追求视觉美学与技术交互的极客玩家打造。
@@ -23,7 +25,7 @@ slingshot-tactician 是一款基于网页摄像头手势追踪（MediaPipe）与
 * **全方位防护与人机网关**：
   * 包含网页端全屏安全屏障，集成了拼图滑块验证码 (CAPTCHA) 与 5秒倒计时免责声明条款验证。
   * 游戏画布内嵌低透明度水印防伪，控制台附带不可修改的全球唯一版权数字签名。
-* **一键本地双击启动**：为 Windows 平台定制了霓虹主题的 `双击启动游戏.bat` 脚本，双击即可全自动检测环境、补全依赖、开启服务并唤起浏览器。
+* **一键本地双击启动**：为 Windows 平台定制了霓虹主题的 `Start.bat` 脚本，双击即可全自动检测环境、补全依赖、开启服务并唤起浏览器。
 
 ---
 
@@ -35,7 +37,7 @@ slingshot-tactician 是一款基于网页摄像头手势追踪（MediaPipe）与
 
 ### 运行方式
 1. **方法一（极速推荐）**：
-   * 双击运行项目根目录下的 **`双击启动游戏.bat`** 启动器。它会全自动处理所有环境配置并拉起浏览器。
+   * 双击运行项目根目录下的 **`Start.bat`** 启动器。它会全自动处理所有环境配置并拉起浏览器。
 2. **方法二（命令行手动）**：
    * 在根目录下运行终端命令安装依赖：
      ```bash
