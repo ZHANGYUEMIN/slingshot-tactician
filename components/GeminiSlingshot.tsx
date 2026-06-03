@@ -4,7 +4,7 @@
  */
 
 import React, { useEffect, useRef, useState, useCallback } from 'react';
-import { getStrategicHint, TargetCandidate } from '../services/geminiService';
+import { getStrategicHint, TargetCandidate, initGeminiClient } from '../services/geminiService';
 import { Point, Bubble, Particle, BubbleColor, DebugInfo } from '../types';
 import { 
   Loader2, Trophy, BrainCircuit, Play, MousePointerClick, 
@@ -158,6 +158,7 @@ const GeminiSlingshot: React.FC = () => {
     const saved = localStorage.getItem('slingshot_highscore');
     return saved ? parseInt(saved, 10) : 0;
   });
+  const [apiKey, setApiKey] = useState(() => localStorage.getItem('gemini_api_key') || '');
 
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -1737,6 +1738,33 @@ const GeminiSlingshot: React.FC = () => {
               {t.prerequisite}
             </p>
 
+            {/* API Key Configuration Card */}
+            <div className="max-w-md mx-auto mb-10 p-6 rounded-[28px] bg-white/[0.02] border border-white/[0.06] backdrop-blur-md text-left relative overflow-hidden group">
+              <div className="absolute top-0 inset-x-10 h-[1px] bg-gradient-to-r from-transparent via-indigo-500/30 to-transparent" />
+              <h3 className="text-xs font-black text-slate-300 mb-2 uppercase tracking-widest font-tech flex items-center gap-2">
+                <BrainCircuit className="w-3.5 h-3.5 text-indigo-400" />
+                <span>{lang === 'zh' ? 'Gemini 智能大脑配置' : 'Gemini AI Configuration'}</span>
+              </h3>
+              <p className="text-[11px] text-slate-400 mb-4 leading-relaxed font-medium tracking-wide">
+                {lang === 'zh' 
+                  ? '如需开启 AI 战术助手，请在此配置你的 Gemini API Key；若留空则自动以 [人工模式] 启动游戏，支持离线且不消耗任何 API 额度。' 
+                  : 'To activate the AI strategist, input your Gemini API Key here. Leave blank to start in [Manual Mode] (no key or network required).'}
+              </p>
+              <div className="relative">
+                <input 
+                  type="password"
+                  placeholder="AI Studio API Key (AIzaSy...)"
+                  value={apiKey}
+                  onChange={(e) => {
+                    setApiKey(e.target.value);
+                    localStorage.setItem('gemini_api_key', e.target.value);
+                    initGeminiClient(e.target.value);
+                  }}
+                  className="w-full bg-black/60 border border-white/[0.08] rounded-xl px-4 py-2.5 text-xs text-indigo-300 placeholder-slate-600 focus:outline-none focus:border-indigo-500 transition-all font-mono-tech shadow-[inset_0_2px_4px_rgba(0,0,0,0.6)]"
+                />
+              </div>
+            </div>
+
             {/* BIG PLAY BUTTON (With Shine effect & subtitle) */}
             <div className="relative inline-block mb-10 group/btn">
               {/* Outer pulsing shadow ring */}
@@ -1744,6 +1772,10 @@ const GeminiSlingshot: React.FC = () => {
               
               <button
                 onClick={() => {
+                  if (!apiKey.trim()) {
+                    setControlMode('manual');
+                    controlModeRef.current = 'manual';
+                  }
                   setIsPlaying(true);
                 }}
                 className="btn-shine cyber-btn relative inline-flex flex-col items-center justify-center text-white px-16 py-5.5 rounded-full transition-all duration-300 transform active:scale-95 min-w-[290px]"
@@ -1981,17 +2013,48 @@ const GeminiSlingshot: React.FC = () => {
                 {isAiThinking && <Loader2 className="w-4.5 h-4.5 animate-spin text-white/50" />}
              </div>
              
-             <p className="text-[#f4f4f5] text-[17px] leading-relaxed font-extrabold z-10 tracking-wide font-hud">
-                {aiHint}
-             </p>
-             
-             {aiRationale && (
-                 <div className="flex gap-2.5 mt-1.5 z-10 bg-white/[0.02] p-4 rounded-xl border border-white/[0.03]">
-                     <Lightbulb className="w-4.5 h-4.5 text-[#818cf8] shrink-0 mt-0.5" />
-                     <p className="text-slate-300 text-[13.5px] leading-relaxed font-medium tracking-wide">
-                        {aiRationale}
-                     </p>
+             {controlMode === 'ai' && !apiKey.trim() ? (
+                 <div className="mt-2 bg-indigo-500/10 border border-indigo-500/20 p-5 rounded-2xl flex flex-col gap-3 text-left z-10 w-full">
+                     <div className="flex items-start gap-2.5 text-indigo-400">
+                         <BrainCircuit className="w-5 h-5 shrink-0 mt-0.5" />
+                         <div>
+                             <p className="text-[12px] font-bold uppercase tracking-[0.15em] font-hud">
+                               {lang === 'zh' ? '配置 API Key 启用 AI' : 'Configure API Key for AI'}
+                             </p>
+                             <p className="text-[11.5px] text-slate-400 mt-1.5 leading-relaxed font-medium">
+                               {lang === 'zh' 
+                                 ? '检测到未配置 API Key。请输入你的 Gemini 密钥以激活 AI 战术分析：'
+                                 : 'No API key configured. Enter your Gemini API key below to activate AI features:'}
+                             </p>
+                         </div>
+                     </div>
+                     <input 
+                       type="password"
+                       placeholder="AI Studio API Key (AIzaSy...)"
+                       value={apiKey}
+                       onChange={(e) => {
+                         setApiKey(e.target.value);
+                         localStorage.setItem('gemini_api_key', e.target.value);
+                         initGeminiClient(e.target.value);
+                       }}
+                       className="w-full bg-black/60 border border-white/[0.08] rounded-xl px-4 py-2 text-xs text-indigo-300 placeholder-slate-600 focus:outline-none focus:border-indigo-500 transition-all font-mono-tech"
+                     />
                  </div>
+             ) : (
+               <>
+                 <p className="text-[#f4f4f5] text-[17px] leading-relaxed font-extrabold z-10 tracking-wide font-hud">
+                    {aiHint}
+                 </p>
+                 
+                 {aiRationale && (
+                     <div className="flex gap-2.5 mt-1.5 z-10 bg-white/[0.02] p-4 rounded-xl border border-white/[0.03]">
+                         <Lightbulb className="w-4.5 h-4.5 text-[#818cf8] shrink-0 mt-0.5" />
+                         <p className="text-slate-300 text-[13.5px] leading-relaxed font-medium tracking-wide">
+                            {aiRationale}
+                         </p>
+                     </div>
+                 )}
+               </>
              )}
 
              {debugInfo?.error && (

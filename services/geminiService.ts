@@ -9,10 +9,19 @@ import { StrategicHint, AiResponse, DebugInfo } from "../types";
 // Initialize Gemini Client
 let ai: GoogleGenAI | null = null;
 
-if (process.env.API_KEY) {
-    ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+export const initGeminiClient = (key: string) => {
+  if (key && key.trim()) {
+    ai = new GoogleGenAI({ apiKey: key.trim() });
+  } else {
+    ai = null;
+  }
+};
+
+const defaultKey = (typeof window !== 'undefined' ? window.localStorage.getItem('gemini_api_key') : null) || process.env.API_KEY || process.env.GEMINI_API_KEY;
+if (defaultKey) {
+  initGeminiClient(defaultKey);
 } else {
-    console.error("API_KEY is missing from environment variables.");
+  console.warn("Gemini API Key is missing. Dynamic input from UI will be required for AI Mode.");
 }
 
 const MODEL_NAME = "gemini-2.5-flash";
